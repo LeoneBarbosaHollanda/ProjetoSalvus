@@ -1,6 +1,5 @@
 import PokemonCadastro from "../components/PokemonRegistration"
-import TabelaPokemon from "../components/TabelaPokemon"
-import "../styles/pages/TabelaPokemon.sass";
+import TabelaPokemon from "../components/PokemonTable"
 
 const Pokemon = () => {
 
