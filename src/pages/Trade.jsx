@@ -1,9 +1,12 @@
+import Traders from "../components/Traders"
 const Trade = () => {
 
     return (
         <div>
             <h1>
-                Trade
+                <Traders>
+
+                </Traders>
             </h1>
         </div>
     )

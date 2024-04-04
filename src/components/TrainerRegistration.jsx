@@ -15,7 +15,7 @@ const UserCadastro = () => {
 
     return (
         <div>
-            <h2>Cadastro de Usuário</h2>
+            <h2>Cadastro de Treinador</h2>
             <form onSubmit={handleSubmit}>
                 <label>
                     Nome:

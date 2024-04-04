@@ -1,35 +1,63 @@
-// Sidebar.js
-import React from 'react';
-import { Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, VStack, Link } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import 'semantic-ui-css/semantic.min.css'
 import { Link as RouterLink } from 'react-router-dom';
-import styles from './Sidebar.module.sass'; // Assuming Sass modules
+import {
+    SidebarPusher,
+    SidebarPushable,
+    MenuItem,
+    GridColumn,
+    Checkbox,
+    Grid,
+    Header,
+    Icon,
+    Image,
+    Menu,
+    Segment,
+} from 'semantic-ui-react';
 
-function Sidebar({ isOpen, onClose }) {
+const Sidebar = () => {
+    const [visible, setVisible] = useState(false);
+
+    const onClose = () => {
+        setVisible(false);
+    };
+
     return (
-        <Drawer isOpen={isOpen} onClose={onClose} placement="left">
-            <DrawerOverlay />
-            <DrawerContent className={styles.content}>
-                <DrawerCloseButton />
-                <DrawerHeader>Menu</DrawerHeader>
-                <DrawerBody>
-                    <VStack spacing={4} align="flex-start">
-                        <Link as={RouterLink} to="/" onClick={onClose}>
-                            Home
-                        </Link>
-                        <Link as={RouterLink} to="/Trainer" onClick={onClose}>
-                            Trainer
-                        </Link>
-                        <Link as={RouterLink} to="/Trade" onClick={onClose}>
-                            Trade
-                        </Link>
-                        <Link as={RouterLink} to="/Pokemon" onClick={onClose}>
-                            Pokemon
-                        </Link>
-                    </VStack>
-                </DrawerBody>
-            </DrawerContent>
-        </Drawer>
+        <Grid columns={1}>
+
+
+            <GridColumn>
+                <SidebarPushable as={Segment}>
+                    <Menu
+                        as={Menu}
+                        animation='overlay'
+                        icon='labeled'
+                        inverted
+                        onHide={() => setVisible(false)}
+                        vertical
+                        width='thin'
+                    >
+                        <MenuItem as='a'>
+                            <Icon name='home' />
+                            <RouterLink to="/" onClick={onClose}>Home</RouterLink>
+                        </MenuItem>
+                        <MenuItem as='a'>
+                            <Icon name='exchange' />
+                            <RouterLink to="/Trade" onClick={onClose}>Trocas</RouterLink>
+                        </MenuItem>
+                        <MenuItem as='a'>
+                            <Icon name='camera' />
+                            <RouterLink to="/pokemon" onClick={onClose}>Pokemon</RouterLink>
+                        </MenuItem>
+                        <MenuItem as='a'>
+                            <Icon name='user' />
+                            <RouterLink to="/Trainer" onClick={onClose}>Treinador</RouterLink>
+                        </MenuItem>
+                    </Menu>
+                </SidebarPushable>
+            </GridColumn>
+        </Grid>
     );
-}
+};
 
 export default Sidebar;
