@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "../styles/pages "
 
 const TabelaPokemon = () => {
     const [pokemons, setPokemons] = useState([]);
@@ -13,7 +14,7 @@ const TabelaPokemon = () => {
     }, []);
 
     return (
-        <div>
+        <div className='listapokemon'>
             <h2>Lista de Pokémons</h2>
             <table>
                 <thead>

@@ -3,11 +3,9 @@ const Trade = () => {
 
     return (
         <div>
-            <h1>
-                <Traders>
 
-                </Traders>
-            </h1>
+            <Traders>
+            </Traders>
         </div>
     )
 }
