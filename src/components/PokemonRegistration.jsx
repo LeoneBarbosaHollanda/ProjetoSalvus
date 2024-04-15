@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 
 const PokemonCadastro = () => {
     const [nome, setNome] = useState('');
@@ -9,16 +11,31 @@ const PokemonCadastro = () => {
     const [ataque2, setAtaque2] = useState('');
     const [treinadorId, setTreinadorId] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('Nome:', nome);
-        console.log('Tipo:', tipo);
-        console.log('Vida:', vida);
-        console.log('Velocidade:', velocidade);
-        console.log('Ataque 1:', ataque1);
-        console.log('Ataque 2:', ataque2);
-        console.log('Treinador ID:', treinadorId);
+        try {
+            const response = await axios.post('http://localhost:4000/pokemons', {
+                nome,
+                tipo,
+                vida,
+                velocidade,
+                ataque1,
+                ataque2,
+                treinadorId
+            });
+            console.log('Resposta da API:', response.data);
+            setNome('');
+            setTipo('');
+            setVida('');
+            setVelocidade('');
+            setAtaque1('');
+            setAtaque2('');
+            setTreinadorId('');
+        } catch (error) {
+            console.error('Erro ao cadastrar:', error);
+        }
     };
+
 
     return (
         <div className='tablePokemon'>

@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import "../styles/pages "
+import axios from 'axios';
 
 const TabelaPokemon = () => {
     const [pokemons, setPokemons] = useState([]);
 
     useEffect(() => {
-        const dadosDoBanco = [
-            { id: 1, nome: 'Pikachu', tipo: 'Elétrico', vida: 100, velocidade: 90, ataque1: 'Choque do Trovão', ataque2: 'Investida Trovão', treinadorId: 1 },
-            { id: 2, nome: 'Charmander', tipo: 'Fogo', vida: 95, velocidade: 85, ataque1: 'Brasa', ataque2: 'Chama', treinadorId: 2 },
-        ];
+        const fetchPokemons = async () => {
+            try {
+                const response = await axios.get('http://localhost:4000/pokemons');
+                setPokemons(response.data);
+            } catch (error) {
+                console.error('Erro ao buscar os Pokémons:', error);
+            }
+        };
 
-        setPokemons(dadosDoBanco);
+        fetchPokemons();
     }, []);
+
+    const handleDeletePokemon = async (id) => {
+        try {
+            await axios.delete(`http://localhost:4000/pokemons/${id}`);
+            setPokemons(pokemons.filter(pokemon => pokemon.id !== id));
+            console.log('Pokemon deletado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao deletar o Pokémon:', error);
+        }
+    };
 
     return (
         <div className='listapokemon'>
@@ -26,6 +40,7 @@ const TabelaPokemon = () => {
                         <th>Ataque 1</th>
                         <th>Ataque 2</th>
                         <th>Treinador ID</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,6 +53,9 @@ const TabelaPokemon = () => {
                             <td>{pokemon.ataque1}</td>
                             <td>{pokemon.ataque2}</td>
                             <td>{pokemon.treinadorId}</td>
+                            <td>
+                                <button onClick={() => handleDeletePokemon(pokemon.id)}>Deletar</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

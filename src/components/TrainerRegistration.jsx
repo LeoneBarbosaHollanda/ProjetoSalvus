@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
 
 const UserCadastro = () => {
-    const [id, setId] = useState('');
     const [nome, setNome] = useState('');
     const [sexo, setSexo] = useState('');
     const [dinheiro, setDinheiro] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('Nome:', nome);
-        console.log('Sexo:', sexo);
-        console.log('Dinheiro:', dinheiro);
+        try {
+            const response = await axios.post('http://localhost:4000/trainers', {
+                nome,
+                sexo,
+                dinheiro
+            });
+            console.log('Resposta da API:', response.data);
+            setNome('');
+            setSexo('');
+            setDinheiro('');
+        } catch (error) {
+            console.error('Erro ao cadastrar:', error);
+        }
     };
 
     return (
@@ -24,10 +35,7 @@ const UserCadastro = () => {
                 <br />
                 <label>
                     Sexo:
-                    <select value={sexo} onChange={(e) => setSexo(e.target.value)}>
-                        <option value="masculino">Masculino</option>
-                        <option value="feminino">Feminino</option>
-                    </select>
+                    <input type="text" value={sexo} onChange={(e) => setSexo(e.target.value)} />
                 </label>
                 <br />
                 <label>

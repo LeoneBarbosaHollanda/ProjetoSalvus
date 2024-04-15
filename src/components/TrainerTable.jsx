@@ -1,25 +1,46 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const TabelaUser = () => {
-    // Estado para armazenar os usuários
-    const [user, setUser] = useState([]);
+const Tabelatrainers = () => {
+    const [trainers, setTrainers] = useState([]);
+
+    const fetchTrainers = async () => {
+        try {
+            const response = await axios.get('http://localhost:4000/trainers');
+            setTrainers(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar os treinadores:', error);
+        }
+    };
 
     useEffect(() => {
-        // Aqui você deve buscar os dados dos usuários do seu banco de dados
-        // Por simplicidade, vamos simular os dados
-        const dadosDoBanco = [
-            { id: 1, nome: 'João', sexo: 'Masculino', dinheiro: 100 },
-            { id: 2, nome: 'Maria', sexo: 'Feminino', dinheiro: 150 },
-            // Adicione mais dados conforme necessário
-        ];
-
-        // Atualizando o estado com os dados obtidos do banco de dados
-        setUser(dadosDoBanco);
+        fetchTrainers();
     }, []);
 
+    const handleAddTrainer = async (newTrainer) => {
+        try {
+            await axios.post('http://localhost:4000/trainers', newTrainer);
+            fetchTrainers();
+            console.log('Treinador cadastrado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao cadastrar o treinador:', error);
+        }
+    };
+
+    // Função para lidar com a exclusão de um treinador
+    const handleDeleteTrainer = async (id) => {
+        try {
+            await axios.delete(`http://localhost:4000/trainers/${id}`);
+            fetchTrainers();
+            console.log('Treinador deletado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao deletar o treinador:', error);
+        }
+    };
+
     return (
-        <div className='tableuser'>
-            <h2>Lista de Usuários</h2>
+        <div className='tabletrainers'>
+            <h2>Lista de treinadores</h2>
             <table>
                 <thead>
                     <tr>
@@ -27,15 +48,19 @@ const TabelaUser = () => {
                         <th>Nome</th>
                         <th>Sexo</th>
                         <th>Dinheiro</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {user.map(user => (
-                        <tr key={user.id}>
-                            <td>{user.id}</td>
-                            <td>{user.nome}</td>
-                            <td>{user.sexo}</td>
-                            <td>{user.dinheiro}</td>
+                    {trainers.map(trainer => (
+                        <tr key={trainer.id}>
+                            <td>{trainer.id}</td>
+                            <td>{trainer.nome}</td>
+                            <td>{trainer.sexo}</td>
+                            <td>{trainer.dinheiro}</td>
+                            <td>
+                                <button onClick={() => handleDeleteTrainer(trainer.id)}>Deletar</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -44,4 +69,4 @@ const TabelaUser = () => {
     );
 };
 
-export default TabelaUser;
+export default Tabelatrainers;
