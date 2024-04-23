@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-
 const UserCadastro = () => {
     const [nome, setNome] = useState('');
     const [sexo, setSexo] = useState('');
     const [dinheiro, setDinheiro] = useState('');
+    const [error, setError] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -19,8 +19,10 @@ const UserCadastro = () => {
             setNome('');
             setSexo('');
             setDinheiro('');
+            setError('');
         } catch (error) {
             console.error('Erro ao cadastrar:', error);
+            setError(error.response.data.error);
         }
     };
 
@@ -33,6 +35,7 @@ const UserCadastro = () => {
                     <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} />
                 </label>
                 <br />
+                {error && <p style={{ color: 'red' }}>{error}</p>}
                 <label>
                     Sexo:
                     <input type="text" value={sexo} onChange={(e) => setSexo(e.target.value)} />
