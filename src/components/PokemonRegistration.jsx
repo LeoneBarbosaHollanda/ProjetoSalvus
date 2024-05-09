@@ -23,7 +23,7 @@ const PokemonCadastro = () => {
                 const options = response.data.map(trainer => ({
                     key: trainer.id,
                     text: trainer.nome,
-                    value: trainer.id // Use o ID como valor do dropdown
+                    value: trainer.id 
                 }));
                 setTrainerOptions(options);
             })
